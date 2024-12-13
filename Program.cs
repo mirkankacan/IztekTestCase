@@ -1,6 +1,7 @@
 using IztekTestCase.Context;
 using IztekTestCase.Services.CategoryServices;
 using IztekTestCase.Services.ProductServices;
+using IztekTestCase.Services.TableServices;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -21,6 +22,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ITableService, TableService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
