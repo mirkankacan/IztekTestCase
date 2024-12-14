@@ -52,5 +52,12 @@ namespace IztekTestCase.Services.TableServices
             _mapper.Map(updateTableDto, table);
             await _context.SaveChangesAsync();
         }
+
+        public async Task UpdateTableStatusAsync(UpdateTableStatusDto updateTableStatusDto)
+        {
+            var table = await _context.Tables.FindAsync(updateTableStatusDto.TableId);
+            _mapper.Map(updateTableStatusDto, table);
+            await _context.SaveChangesAsync();
+        }
     }
 }

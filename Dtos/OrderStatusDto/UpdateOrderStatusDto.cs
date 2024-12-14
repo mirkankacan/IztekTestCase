@@ -1,4 +1,4 @@
-﻿namespace IztekTestCase.Dtos.OrderDtos
+﻿namespace IztekTestCase.Dtos.OrderStatusDto
 {
     public class UpdateOrderStatusDto
     {

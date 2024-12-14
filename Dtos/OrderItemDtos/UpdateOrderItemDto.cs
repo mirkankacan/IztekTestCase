@@ -1,9 +1,11 @@
 ﻿namespace IztekTestCase.Dtos.OrderItemDtos
 {
-    public class CreateOrderItemDto
+    public class UpdateOrderItemDto
     {
-        public int ProductId { get; set; }
+        public int OrderItemId { get; set; }
 
         public int Quantity { get; set; }
+
+
     }
 }

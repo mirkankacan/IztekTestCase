@@ -19,46 +19,38 @@ namespace IztekTestCase.Services.PaymentServices
 
         public async Task CreatePaymentAsync(CreatePaymentDto createPaymentDto)
         {
-            var mappedPayment = _mapper.Map<Payment>(createPaymentDto);
-            mappedPayment.PaymentId = Guid.NewGuid();
-            mappedPayment.CreatedAt = DateTime.UtcNow;
-            await _context.Payments.AddAsync(mappedPayment);
-            await _context.SaveChangesAsync();
-        }
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var mappedPayment = _mapper.Map<Payment>(createPaymentDto);
+                mappedPayment.PaymentId = Guid.NewGuid();
+                mappedPayment.CreatedAt = DateTime.UtcNow;
+                await _context.Payments.AddAsync(mappedPayment);
 
-        public async Task DeletePaymentAsync(Guid id)
-        {
-            var payment = await _context.Payments.FindAsync(id);
-            _context.Payments.Remove(payment);
-            await _context.SaveChangesAsync();
+                var order = await _context.Orders.FirstOrDefaultAsync(x => x.OrderId == createPaymentDto.OrderId);
+                order.OrderStatusId = 2; // Ödeme yapıldı
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
 
         public async Task<ResultPaymentDto> GetPaymentByIdAsync(Guid id)
         {
-            var payment = await _context.Payments.Include(x => x.PaymentStatus).Include(x => x.Order).FirstOrDefaultAsync(x => x.PaymentId == id);
+            var payment = await _context.Payments.Include(x => x.Order).FirstOrDefaultAsync(x => x.PaymentId == id);
             var mappedPayment = _mapper.Map<ResultPaymentDto>(payment);
             return mappedPayment;
         }
 
         public async Task<List<ResultPaymentDto>> GetPaymentListAsync()
         {
-            var payments = await _context.Payments.Include(x => x.PaymentStatus).Include(x => x.Order).ToListAsync();
+            var payments = await _context.Payments.Include(x => x.Order).ToListAsync();
             var mappedPayments = _mapper.Map<List<ResultPaymentDto>>(payments);
             return mappedPayments;
-        }
-
-        public async Task UpdatePaymentAsync(UpdatePaymentDto updatePaymentDto)
-        {
-            var payment = await _context.Payments.FindAsync(updatePaymentDto.PaymentId);
-            _mapper.Map(updatePaymentDto, payment);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdatePaymentStatusAsync(UpdatePaymentStatusDto updatePaymentStatusDto)
-        {
-            var payment = await _context.Payments.FindAsync(updatePaymentStatusDto.PaymentId);
-            _mapper.Map(updatePaymentStatusDto, payment);
-            await _context.SaveChangesAsync();
         }
     }
 }

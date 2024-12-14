@@ -24,8 +24,6 @@ public partial class TestCaseDbContext : DbContext
 
     public virtual DbSet<Payment> Payments { get; set; }
 
-    public virtual DbSet<PaymentStatus> PaymentStatuses { get; set; }
-
     public virtual DbSet<Product> Products { get; set; }
 
     public virtual DbSet<Table> Tables { get; set; }
@@ -70,6 +68,7 @@ public partial class TestCaseDbContext : DbContext
             entity.ToTable("OrderItem");
 
             entity.Property(e => e.Total).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.UnitPrice).HasColumnType("decimal(18, 2)");
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderItems)
                 .HasForeignKey(d => d.OrderId)
@@ -102,19 +101,6 @@ public partial class TestCaseDbContext : DbContext
                 .HasForeignKey(d => d.OrderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Payment_Order");
-
-            entity.HasOne(d => d.PaymentStatus).WithMany(p => p.Payments)
-                .HasForeignKey(d => d.PaymentStatusId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Payment_Payment");
-        });
-
-        modelBuilder.Entity<PaymentStatus>(entity =>
-        {
-            entity.ToTable("PaymentStatus");
-
-            entity.Property(e => e.PaymentStatusId).ValueGeneratedNever();
-            entity.Property(e => e.Status).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Product>(entity =>

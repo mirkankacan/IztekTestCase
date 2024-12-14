@@ -13,5 +13,7 @@ namespace IztekTestCase.Services.TableServices
         Task DeleteTableAsync(int id);
 
         Task UpdateTableAsync(UpdateTableDto updateTableDto);
+
+        Task UpdateTableStatusAsync(UpdateTableStatusDto updateTableStatusDto);
     }
 }

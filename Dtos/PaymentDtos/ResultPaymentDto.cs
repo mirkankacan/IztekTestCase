@@ -11,7 +11,5 @@ namespace IztekTestCase.Dtos.PaymentDtos
         public DateTime? CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
-
-        public ResultPaymentStatusDto PaymentStatus { get; set; }
     }
 }

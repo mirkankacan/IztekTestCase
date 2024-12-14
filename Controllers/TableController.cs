@@ -51,5 +51,11 @@ namespace IztekTestCase.Controllers
             await _tableService.UpdateTableAsync(updateTableDto);
             return Ok();
         }
+        [HttpPut("UpdateTableStatus")]
+        public async Task<IActionResult> UpdateTableStatus(UpdateTableStatusDto updateTableStatusDto)
+        {
+            await _tableService.UpdateTableStatusAsync(updateTableStatusDto);
+            return Ok();
+        }
     }
 }

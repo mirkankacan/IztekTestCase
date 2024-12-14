@@ -11,7 +11,6 @@ namespace IztekTestCase.Mappings
             CreateMap<CreateOrderDto, Order>().ReverseMap();
             CreateMap<UpdateOrderDto, Order>().ReverseMap();
             CreateMap<ResultOrderDto, Order>().ReverseMap();
-            CreateMap<ResultOrderStatusDto, OrderStatus>().ReverseMap();
         }
     }
 }

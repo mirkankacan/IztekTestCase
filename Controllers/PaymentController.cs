@@ -31,31 +31,10 @@ namespace IztekTestCase.Controllers
             return Ok(value);
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> DeletePayment(Guid id)
-        {
-            await _paymentService.DeletePaymentAsync(id);
-            return Ok();
-        }
-
         [HttpPost]
         public async Task<IActionResult> CreatePayment(CreatePaymentDto createPaymentDto)
         {
             await _paymentService.CreatePaymentAsync(createPaymentDto);
-            return Ok();
-        }
-
-        [HttpPut]
-        public async Task<IActionResult> UpdatePayment(UpdatePaymentDto updatePaymentDto)
-        {
-            await _paymentService.UpdatePaymentAsync(updatePaymentDto);
-            return Ok();
-        }
-
-        [HttpPut("UpdatePaymentStatus")]
-        public async Task<IActionResult> UpdatePaymentStatus(UpdatePaymentStatusDto updatePaymentStatusDto)
-        {
-            await _paymentService.UpdatePaymentStatusAsync(updatePaymentStatusDto);
             return Ok();
         }
     }

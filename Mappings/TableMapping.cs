@@ -11,7 +11,8 @@ namespace IztekTestCase.Mappings
             CreateMap<CreateTableDto, Table>().ReverseMap();
             CreateMap<UpdateTableDto, Table>().ReverseMap();
             CreateMap<ResultTableDto, Table>().ReverseMap();
-            CreateMap<ResultTableStatusDto, TableStatus>().ReverseMap();
+            CreateMap<UpdateTableStatusDto, Table>().ReverseMap();
+
         }
     }
 }

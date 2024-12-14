@@ -1,13 +1,13 @@
-﻿namespace IztekTestCase.Dtos.OrderDtos
+﻿using IztekTestCase.Dtos.OrderItemDtos;
+
+namespace IztekTestCase.Dtos.OrderDtos
 {
     public class CreateOrderDto
     {
         public int TableId { get; set; }
 
-        public int OrderStatusId { get; set; }
-
         public DateTime? CreatedAt { get; set; }
 
-        public decimal Amount { get; set; }
+        public List<CreateOrderItemDto> OrderItems { get; set; }
     }
 }

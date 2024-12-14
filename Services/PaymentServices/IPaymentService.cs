@@ -9,11 +9,5 @@ namespace IztekTestCase.Services.PaymentServices
         Task<ResultPaymentDto> GetPaymentByIdAsync(Guid id);
 
         Task CreatePaymentAsync(CreatePaymentDto createPaymentDto);
-
-        Task DeletePaymentAsync(Guid id);
-
-        Task UpdatePaymentAsync(UpdatePaymentDto updatePaymentDto);
-
-        Task UpdatePaymentStatusAsync(UpdatePaymentStatusDto updatePaymentStatusDto);
     }
 }
