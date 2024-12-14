@@ -69,7 +69,6 @@ public partial class TestCaseDbContext : DbContext
         {
             entity.ToTable("OrderItem");
 
-            entity.Property(e => e.UnitPrice).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.Total).HasColumnType("decimal(18, 2)");
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderItems)
@@ -148,7 +147,5 @@ public partial class TestCaseDbContext : DbContext
             entity.Property(e => e.TableStatusId).ValueGeneratedNever();
             entity.Property(e => e.Status).HasMaxLength(50);
         });
-
     }
-
 }

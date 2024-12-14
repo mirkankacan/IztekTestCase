@@ -1,4 +1,4 @@
-﻿namespace IztekTestCase.Dtos.TableStatusDto
+﻿namespace IztekTestCase.Dtos.TableDtos
 {
     public class ResultTableStatusDto
     {

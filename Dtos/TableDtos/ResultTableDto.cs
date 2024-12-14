@@ -1,6 +1,4 @@
-﻿using IztekTestCase.Dtos.TableStatusDto;
-
-namespace IztekTestCase.Dtos.TableDtos
+﻿namespace IztekTestCase.Dtos.TableDtos
 {
     public class ResultTableDto
     {

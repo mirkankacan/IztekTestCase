@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using IztekTestCase.Dtos.TableDtos;
-using IztekTestCase.Dtos.TableStatusDto;
 using IztekTestCase.Entities;
 
 namespace IztekTestCase.Mappings
