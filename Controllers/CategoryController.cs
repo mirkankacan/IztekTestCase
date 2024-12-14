@@ -18,38 +18,73 @@ namespace IztekTestCase.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCategoryList()
         {
-            var values = await _categoryService.GetCategoryListAsync();
+            try
+            {
+                var values = await _categoryService.GetCategoryListAsync();
 
-            return Ok(values);
+                return Ok(values);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategoryById(int id)
         {
-            var value = await _categoryService.GetCategoryByIdAsync(id);
+            try
+            {
+                var value = await _categoryService.GetCategoryByIdAsync(id);
 
-            return Ok(value);
+                return Ok(value);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
 
         [HttpDelete]
         public async Task<IActionResult> DeleteCategory(int id)
         {
-            await _categoryService.DeleteCategoryAsync(id);
-            return Ok();
+            try
+            {
+                await _categoryService.DeleteCategoryAsync(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CreateCategoryDto createCategoryDto)
         {
-            await _categoryService.CreateCategoryAsync(createCategoryDto);
-            return Ok();
+            try
+            {
+                await _categoryService.CreateCategoryAsync(createCategoryDto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateCategory(UpdateCategoryDto updateCategoryDto)
         {
-            await _categoryService.UpdateCategoryAsync(updateCategoryDto);
-            return Ok();
+            try
+            {
+                await _categoryService.UpdateCategoryAsync(updateCategoryDto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
     }
 }

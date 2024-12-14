@@ -18,24 +18,45 @@ namespace IztekTestCase.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPaymentList()
         {
-            var values = await _paymentService.GetPaymentListAsync();
+            try
+            {
+                var values = await _paymentService.GetPaymentListAsync();
 
-            return Ok(values);
+                return Ok(values);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPaymentById(Guid id)
         {
-            var value = await _paymentService.GetPaymentByIdAsync(id);
+            try
+            {
+                var value = await _paymentService.GetPaymentByIdAsync(id);
 
-            return Ok(value);
+                return Ok(value);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> CreatePayment(CreatePaymentDto createPaymentDto)
         {
-            await _paymentService.CreatePaymentAsync(createPaymentDto);
-            return Ok();
+            try
+            {
+                await _paymentService.CreatePaymentAsync(createPaymentDto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
     }
 }

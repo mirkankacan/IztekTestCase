@@ -18,38 +18,73 @@ namespace IztekTestCase.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProductList()
         {
-            var values = await _productService.GetProductListAsync();
+            try
+            {
+                var values = await _productService.GetProductListAsync();
 
-            return Ok(values);
+                return Ok(values);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductById(int id)
         {
-            var value = await _productService.GetProductByIdAsync(id);
+            try
+            {
+                var value = await _productService.GetProductByIdAsync(id);
 
-            return Ok(value);
+                return Ok(value);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
 
         [HttpDelete]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            await _productService.DeleteProductAsync(id);
-            return Ok();
+            try
+            {
+                await _productService.DeleteProductAsync(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateProduct(CreateProductDto createProductDto)
         {
-            await _productService.CreateProductAsync(createProductDto);
-            return Ok();
+            try
+            {
+                await _productService.CreateProductAsync(createProductDto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateProduct(UpdateProductDto updateProductDto)
         {
-            await _productService.UpdateProductAsync(updateProductDto);
-            return Ok();
+            try
+            {
+                await _productService.UpdateProductAsync(updateProductDto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
     }
 }

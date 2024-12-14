@@ -18,38 +18,73 @@ namespace IztekTestCase.Controllers
         [HttpGet]
         public async Task<IActionResult> GetOrderList()
         {
-            var values = await _orderService.GetOrderListAsync();
+            try
+            {
+                var values = await _orderService.GetOrderListAsync();
 
-            return Ok(values);
+                return Ok(values);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrderById(Guid id)
         {
-            var value = await _orderService.GetOrderByIdAsync(id);
+            try
+            {
+                var value = await _orderService.GetOrderByIdAsync(id);
 
-            return Ok(value);
+                return Ok(value);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
 
         [HttpDelete]
         public async Task<IActionResult> DeleteOrder(Guid id)
         {
-            await _orderService.DeleteOrderAsync(id);
-            return Ok();
+            try
+            {
+                await _orderService.DeleteOrderAsync(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateOrder(CreateOrderDto createOrderDto)
         {
-            await _orderService.CreateOrderAsync(createOrderDto);
-            return Ok();
+            try
+            {
+                await _orderService.CreateOrderAsync(createOrderDto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateOrder(UpdateOrderDto updateOrderDto)
         {
-            await _orderService.UpdateOrderAsync(updateOrderDto);
-            return Ok();
+            try
+            {
+                await _orderService.UpdateOrderAsync(updateOrderDto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
     }
 }

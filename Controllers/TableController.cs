@@ -18,44 +18,87 @@ namespace IztekTestCase.Controllers
         [HttpGet]
         public async Task<IActionResult> GetTableList()
         {
-            var values = await _tableService.GetTableListAsync();
+            try
+            {
+                var values = await _tableService.GetTableListAsync();
 
-            return Ok(values);
+                return Ok(values);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTableById(int id)
         {
-            var value = await _tableService.GetTableByIdAsync(id);
+            try
+            {
+                var value = await _tableService.GetTableByIdAsync(id);
 
-            return Ok(value);
+                return Ok(value);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
 
         [HttpDelete]
         public async Task<IActionResult> DeleteTable(int id)
         {
-            await _tableService.DeleteTableAsync(id);
-            return Ok();
+            try
+            {
+                await _tableService.DeleteTableAsync(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateTable(CreateTableDto createTableDto)
         {
-            await _tableService.CreateTableAsync(createTableDto);
-            return Ok();
+            try
+            {
+                await _tableService.CreateTableAsync(createTableDto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateTable(UpdateTableDto updateTableDto)
         {
-            await _tableService.UpdateTableAsync(updateTableDto);
-            return Ok();
+            try
+            {
+                await _tableService.UpdateTableAsync(updateTableDto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
+
         [HttpPut("UpdateTableStatus")]
         public async Task<IActionResult> UpdateTableStatus(UpdateTableStatusDto updateTableStatusDto)
         {
-            await _tableService.UpdateTableStatusAsync(updateTableStatusDto);
-            return Ok();
+            try
+            {
+                await _tableService.UpdateTableStatusAsync(updateTableStatusDto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Hata: {ex.Message}");
+            }
         }
     }
 }

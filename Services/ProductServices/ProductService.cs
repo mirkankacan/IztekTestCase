@@ -19,37 +19,72 @@ namespace IztekTestCase.Services.ProductServices
 
         public async Task CreateProductAsync(CreateProductDto createProductDto)
         {
-            var mappedProduct = _mapper.Map<Product>(createProductDto);
-            await _context.Products.AddAsync(mappedProduct);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var mappedProduct = _mapper.Map<Product>(createProductDto);
+                await _context.Products.AddAsync(mappedProduct);
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task DeleteProductAsync(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var product = await _context.Products.FindAsync(id);
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task<ResultProductDto> GetProductByIdAsync(int id)
         {
-            var product = await _context.Products.Include(x => x.Category).FirstOrDefaultAsync(x => x.ProductId == id);
-            var mappedProduct = _mapper.Map<ResultProductDto>(product);
-            return mappedProduct;
+            try
+            {
+                var product = await _context.Products.Include(x => x.Category).FirstOrDefaultAsync(x => x.ProductId == id);
+                var mappedProduct = _mapper.Map<ResultProductDto>(product);
+                return mappedProduct;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task<List<ResultProductDto>> GetProductListAsync()
         {
-            var products = await _context.Products.Include(x => x.Category).ToListAsync();
-            var mappedProducts = _mapper.Map<List<ResultProductDto>>(products);
-            return mappedProducts;
+            try
+            {
+                var products = await _context.Products.Include(x => x.Category).ToListAsync();
+                var mappedProducts = _mapper.Map<List<ResultProductDto>>(products);
+                return mappedProducts;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task UpdateProductAsync(UpdateProductDto updateProductDto)
         {
-            var product = await _context.Products.FindAsync(updateProductDto.ProductId);
-            _mapper.Map(updateProductDto, product);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var product = await _context.Products.FindAsync(updateProductDto.ProductId);
+                _mapper.Map(updateProductDto, product);
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }

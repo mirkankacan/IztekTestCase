@@ -65,23 +65,44 @@ namespace IztekTestCase.Services.OrderServices
 
         public async Task DeleteOrderAsync(Guid id)
         {
-            var order = await _context.Orders.FindAsync(id);
-            _context.Orders.Remove(order);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var order = await _context.Orders.FindAsync(id);
+                _context.Orders.Remove(order);
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task<ResultOrderDto> GetOrderByIdAsync(Guid id)
         {
-            var order = await _context.Orders.Include(x => x.OrderStatus).Include(x => x.OrderItems).ThenInclude(x => x.Product).ThenInclude(x => x.Category).Include(x => x.Table).ThenInclude(x => x.TableStatus).FirstOrDefaultAsync(x => x.OrderId == id);
-            var mappedOrder = _mapper.Map<ResultOrderDto>(order);
-            return mappedOrder;
+            try
+            {
+                var order = await _context.Orders.Include(x => x.OrderStatus).Include(x => x.OrderItems).ThenInclude(x => x.Product).ThenInclude(x => x.Category).Include(x => x.Table).ThenInclude(x => x.TableStatus).FirstOrDefaultAsync(x => x.OrderId == id);
+                var mappedOrder = _mapper.Map<ResultOrderDto>(order);
+                return mappedOrder;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task<List<ResultOrderDto>> GetOrderListAsync()
         {
-            var orders = await _context.Orders.Include(x => x.OrderStatus).Include(x => x.OrderItems).ThenInclude(x => x.Product).ThenInclude(x => x.Category).Include(x => x.Table).ThenInclude(x => x.TableStatus).ToListAsync();
-            var mappedOrders = _mapper.Map<List<ResultOrderDto>>(orders);
-            return mappedOrders;
+            try
+            {
+                var orders = await _context.Orders.Include(x => x.OrderStatus).Include(x => x.OrderItems).ThenInclude(x => x.Product).ThenInclude(x => x.Category).Include(x => x.Table).ThenInclude(x => x.TableStatus).ToListAsync();
+                var mappedOrders = _mapper.Map<List<ResultOrderDto>>(orders);
+                return mappedOrders;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task UpdateOrderAsync(UpdateOrderDto updateOrderDto)

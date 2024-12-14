@@ -41,16 +41,30 @@ namespace IztekTestCase.Services.PaymentServices
 
         public async Task<ResultPaymentDto> GetPaymentByIdAsync(Guid id)
         {
-            var payment = await _context.Payments.Include(x => x.Order).FirstOrDefaultAsync(x => x.PaymentId == id);
-            var mappedPayment = _mapper.Map<ResultPaymentDto>(payment);
-            return mappedPayment;
+            try
+            {
+                var payment = await _context.Payments.Include(x => x.Order).FirstOrDefaultAsync(x => x.PaymentId == id);
+                var mappedPayment = _mapper.Map<ResultPaymentDto>(payment);
+                return mappedPayment;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task<List<ResultPaymentDto>> GetPaymentListAsync()
         {
-            var payments = await _context.Payments.Include(x => x.Order).ToListAsync();
-            var mappedPayments = _mapper.Map<List<ResultPaymentDto>>(payments);
-            return mappedPayments;
+            try
+            {
+                var payments = await _context.Payments.Include(x => x.Order).ToListAsync();
+                var mappedPayments = _mapper.Map<List<ResultPaymentDto>>(payments);
+                return mappedPayments;
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }
