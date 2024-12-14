@@ -25,10 +25,23 @@ namespace IztekTestCase.Services.PaymentServices
                 var mappedPayment = _mapper.Map<Payment>(createPaymentDto);
                 mappedPayment.PaymentId = Guid.NewGuid();
                 mappedPayment.CreatedAt = DateTime.UtcNow;
-                await _context.Payments.AddAsync(mappedPayment);
 
                 var order = await _context.Orders.FirstOrDefaultAsync(x => x.OrderId == createPaymentDto.OrderId);
-                order.OrderStatusId = 2; // Ödeme yapıldı
+                var oldAmounts = await _context.Payments.Where(x => x.OrderId == createPaymentDto.OrderId).SumAsync(x => x.PaidAmount);
+                var totalPaidAmount = createPaymentDto.PaidAmount + oldAmounts;
+                if (totalPaidAmount < order.Amount)
+                {
+                    order.OrderStatusId = 4; // Tamamı ödenmedi
+                }
+                else if (totalPaidAmount == order.Amount)
+                {
+                    order.OrderStatusId = 2; // Tamamı ödendi
+                }
+                else
+                {
+                    throw new Exception("Tutarın üstünde tahsil edildi");
+                }
+                await _context.Payments.AddAsync(mappedPayment);
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
             }
