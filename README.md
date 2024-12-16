@@ -4,6 +4,7 @@
 + .NET Core 9: En son sürüm .NET Core. Platformlar arası uyumluluk ve performans sağlayan projenin temeli.
 + MSSQL: İlişkisel veri tabanı yönetim sistemi.
 + Entity Framework: Veri tabanı etkileşimleri için Object-Relational Mapping (ORM) aracı.
++ LINQ: Veri koleksiyonlarını sorgulamak, verileri filtrelemek veya dönüştürmek gibi işlemleri kolaylaştıran teknoloji.
 + AutoMapper: Farklı tipteki complex objeleri birbilerine otomatik dönüştüren kütüphane.
 + Swagger: API'lerin açıklayıcı bir şekilde belgelenmesini sağlayan açık kaynaklı araç.
 + Dependency Injection: Bağımlılıkları verimli bir şekilde yönetme ve çözme.
