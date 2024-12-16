@@ -26,7 +26,7 @@ namespace IztekTestCase.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Hata: {ex.Message}");
+                return StatusCode(500, $"Hata: {ex.Message} - {ex.InnerException}");
             }
         }
 
@@ -41,7 +41,7 @@ namespace IztekTestCase.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Hata: {ex.Message}");
+                return StatusCode(500, $"Hata: {ex.Message} - {ex.InnerException}");
             }
         }
 
@@ -51,11 +51,11 @@ namespace IztekTestCase.Controllers
             try
             {
                 await _tableService.DeleteTableAsync(id);
-                return Ok();
+                return Ok("Masa başarılı bir şekilde silindi");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Hata: {ex.Message}");
+                return StatusCode(500, $"Hata: {ex.Message} - {ex.InnerException}");
             }
         }
 
@@ -65,11 +65,11 @@ namespace IztekTestCase.Controllers
             try
             {
                 await _tableService.CreateTableAsync(createTableDto);
-                return Ok();
+                return Ok("Masa başarılı bir şekilde oluşturuldu");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Hata: {ex.Message}");
+                return StatusCode(500, $"Hata: {ex.Message} - {ex.InnerException}");
             }
         }
 
@@ -79,11 +79,11 @@ namespace IztekTestCase.Controllers
             try
             {
                 await _tableService.UpdateTableAsync(updateTableDto);
-                return Ok();
+                return Ok("Masa başarılı bir şekilde güncellendi");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Hata: {ex.Message}");
+                return StatusCode(500, $"Hata: {ex.Message} - {ex.InnerException}");
             }
         }
 
@@ -93,11 +93,11 @@ namespace IztekTestCase.Controllers
             try
             {
                 await _tableService.UpdateTableStatusAsync(updateTableStatusDto);
-                return Ok();
+                return Ok("Masa durumu başarılı bir şekilde güncellendi");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Hata: {ex.Message}");
+                return StatusCode(500, $"Hata: {ex.Message} - {ex.InnerException}");
             }
         }
     }

@@ -39,7 +39,7 @@ namespace IztekTestCase.Services.PaymentServices
                 }
                 else
                 {
-                    throw new Exception("Tutarın üstünde tahsil edildi");
+                    throw new Exception("Tutarın üstünde ödeme yapıldı");
                 }
                 await _context.Payments.AddAsync(mappedPayment);
                 await _context.SaveChangesAsync();

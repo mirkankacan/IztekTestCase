@@ -26,7 +26,7 @@ namespace IztekTestCase.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Hata: {ex.Message}");
+                return StatusCode(500, $"Hata: {ex.Message} - {ex.InnerException}");
             }
         }
 
@@ -41,7 +41,7 @@ namespace IztekTestCase.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Hata: {ex.Message}");
+                return StatusCode(500, $"Hata: {ex.Message} - {ex.InnerException}");
             }
         }
 
@@ -51,11 +51,11 @@ namespace IztekTestCase.Controllers
             try
             {
                 await _productService.DeleteProductAsync(id);
-                return Ok();
+                return Ok("Ürün başarılı bir şekilde silindi");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Hata: {ex.Message}");
+                return StatusCode(500, $"Hata: {ex.Message} - {ex.InnerException}");
             }
         }
 
@@ -65,11 +65,11 @@ namespace IztekTestCase.Controllers
             try
             {
                 await _productService.CreateProductAsync(createProductDto);
-                return Ok();
+                return Ok("Ürün başarılı bir şekilde oluşturuldu");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Hata: {ex.Message}");
+                return StatusCode(500, $"Hata: {ex.Message} - {ex.InnerException}");
             }
         }
 
@@ -79,11 +79,11 @@ namespace IztekTestCase.Controllers
             try
             {
                 await _productService.UpdateProductAsync(updateProductDto);
-                return Ok();
+                return Ok("Ürün başarılı bir şekilde güncellendi");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Hata: {ex.Message}");
+                return StatusCode(500, $"Hata: {ex.Message} - {ex.InnerException}");
             }
         }
     }

@@ -135,14 +135,14 @@ namespace IztekTestCase.Services.OrderServices
                         {
                             var product = await _context.Products.FirstOrDefaultAsync(x => x.ProductId == orderItem.ProductId);
                             product.StockQuantity = product.StockQuantity + (orderItem.Quantity - item.Quantity);
-                            orderItem.Quantity = item.Quantity;
                         }
+                        orderItem.Quantity = item.Quantity;
+
                         orderItem.Total = orderItem.UnitPrice * item.Quantity;
                     }
                     order.Amount = order.OrderItems.Sum(x => x.Total);
                 }
 
-                _context.Orders.Update(order);
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
             }

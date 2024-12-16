@@ -26,7 +26,7 @@ namespace IztekTestCase.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Hata: {ex.Message}");
+                return StatusCode(500, $"Hata: {ex.Message} - {ex.InnerException}");
             }
         }
 
@@ -41,7 +41,7 @@ namespace IztekTestCase.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Hata: {ex.Message}");
+                return StatusCode(500, $"Hata: {ex.Message} - {ex.InnerException}");
             }
         }
 
@@ -51,11 +51,11 @@ namespace IztekTestCase.Controllers
             try
             {
                 await _paymentService.CreatePaymentAsync(createPaymentDto);
-                return Ok();
+                return Ok("Ödeme başarılı bir şekilde yapıldı");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Hata: {ex.Message}");
+                return StatusCode(500, $"Hata: {ex.Message} - {ex.InnerException}");
             }
         }
     }
