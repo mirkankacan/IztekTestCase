@@ -12,6 +12,10 @@
 + Makinenizde yüklü bir [.NET Core 9 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/9.0).
 + [Microsoft SQL Server 2022 Developer Edition](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) kurulmuş ve yapılandırılmış olmalıdır.
 
+## Veri Tabanı Tasarımı
++ Proje dizini altındaki `TestCase.drawio` dosyası ile [draw.io](https://app.diagrams.net) sitesi üzerinde görüntülenebilir.
++ Microsoft SQL Server Managment Studio ile ilgili veri tabanı içinde `Database Diagrams` altında görüntülenebilir. 
+
 ## Kurulum 
 1. Proje dizini altındaki `CreateTestCaseDb.sql` scripti ile yerel makineniz için gerekli düzenlemeleri yaptıktan sonra veri tabanı ve tabloları oluşturun.
 2. Bu GitHub deposunu yerel makinenize klonlamak için aşağıdaki komutu kullanın:
