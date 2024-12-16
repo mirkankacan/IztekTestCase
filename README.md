@@ -10,7 +10,7 @@
 
 ## Gereksinimler
 + Makinenizde yüklü bir [.NET Core 9 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/9.0).
-+ [Microsoft SQL Server 2022 Copyright (C) 2022 Microsoft Corporation  Developer Edition](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) kurulmuş ve yapılandırılmış olmalıdır.
++ [Microsoft SQL Server 2022 Developer Edition](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) kurulmuş ve yapılandırılmış olmalıdır.
 
 ## Kurulum 
 1. Proje dizini altındaki `CreateTestCaseDb.sql` scripti ile yerel makineniz için gerekli düzenlemeleri yaptıktan sonra veri tabanı ve tabloları oluşturun.
