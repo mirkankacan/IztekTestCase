@@ -1,4 +1,7 @@
-﻿namespace IztekTestCase.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace IztekTestCase.Entities;
 
 public partial class Payment
 {
@@ -9,6 +12,7 @@ public partial class Payment
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
+
     public decimal PaidAmount { get; set; }
 
     public virtual Order Order { get; set; } = null!;

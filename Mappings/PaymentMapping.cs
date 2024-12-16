@@ -9,7 +9,7 @@ namespace IztekTestCase.Mappings
         public PaymentMapping()
         {
             CreateMap<CreatePaymentDto, Payment>().ReverseMap();
-            CreateMap<ResultPaymentDto, Payment>().ReverseMap();
+            CreateMap<ResultPaymentDto, VwPaymentWithOrder>().ReverseMap();
         }
     }
 }

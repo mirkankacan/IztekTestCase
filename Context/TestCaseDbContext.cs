@@ -30,9 +30,10 @@ public partial class TestCaseDbContext : DbContext
 
     public virtual DbSet<TableStatus> TableStatuses { get; set; }
 
+    public virtual DbSet<VwPaymentWithOrder> VwPaymentWithOrders { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=MIRKANVICTUS\\MSSQLSERVER01;Initial Catalog=TestCaseDb;Integrated Security=True;Trust Server Certificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=MIRKANVICTUS\\MSSQLSERVER01;Initial Catalog=TestCaseDb;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -95,8 +96,8 @@ public partial class TestCaseDbContext : DbContext
 
             entity.Property(e => e.PaymentId).ValueGeneratedNever();
             entity.Property(e => e.CreatedAt).HasColumnType("datetime");
-            entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
             entity.Property(e => e.PaidAmount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
 
             entity.HasOne(d => d.Order).WithMany(p => p.Payments)
                 .HasForeignKey(d => d.OrderId)
@@ -134,5 +135,22 @@ public partial class TestCaseDbContext : DbContext
             entity.Property(e => e.TableStatusId).ValueGeneratedNever();
             entity.Property(e => e.Status).HasMaxLength(50);
         });
+
+        modelBuilder.Entity<VwPaymentWithOrder>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vw_PaymentWithOrder");
+
+            entity.Property(e => e.OrderCreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.OrderStatus).HasMaxLength(50);
+            entity.Property(e => e.OrderUpdatedAt).HasColumnType("datetime");
+            entity.Property(e => e.PaidAmount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.PaymentCreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.PaymentUpdatedAt).HasColumnType("datetime");
+            entity.Property(e => e.TotalAmount).HasColumnType("decimal(18, 2)");
+        });
+
     }
+
 }

@@ -1,4 +1,7 @@
-﻿namespace IztekTestCase.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace IztekTestCase.Entities;
 
 public partial class Table
 {

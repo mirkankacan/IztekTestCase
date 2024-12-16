@@ -56,7 +56,7 @@ namespace IztekTestCase.Services.PaymentServices
         {
             try
             {
-                var payment = await _context.Payments.Include(x => x.Order).FirstOrDefaultAsync(x => x.PaymentId == id);
+                var payment = await _context.VwPaymentWithOrders.FirstOrDefaultAsync(x => x.PaymentId == id);
                 var mappedPayment = _mapper.Map<ResultPaymentDto>(payment);
                 return mappedPayment;
             }
@@ -70,7 +70,7 @@ namespace IztekTestCase.Services.PaymentServices
         {
             try
             {
-                var payments = await _context.Payments.Include(x => x.Order).ToListAsync();
+                var payments = await _context.VwPaymentWithOrders.ToListAsync();
                 var mappedPayments = _mapper.Map<List<ResultPaymentDto>>(payments);
                 return mappedPayments;
             }
