@@ -15,7 +15,7 @@
 
 ## Veri Tabanı Tasarımı
 + Proje dizini altındaki `TestCase.drawio` dosyası ile [draw.io](https://app.diagrams.net) sitesi üzerinde görüntülenebilir.
-+ Microsoft SQL Server Managment Studio ile ilgili veri tabanı içinde `Database Diagrams` altında görüntülenebilir. 
++ Microsoft SQL Server Managment Studio ile ilgili veri tabanı içinde `Database Diagrams` altında oluşturulabilir. 
 
 ## Kurulum 
 1. Proje dizini altındaki `CreateTestCaseDb.sql` scripti ile yerel makineniz için gerekli düzenlemeleri yaptıktan sonra veri tabanı ve tabloları oluşturun.
@@ -34,6 +34,10 @@ dotnet restore
 5. Projeyi derlemek için:
 ```
 dotnet build
+```
+6. Projeyi çalıştırmak için (`https://localhost:7035`, `http://localhost:5073` portlarında çalışacaktır):
+```
+dotnet run
 ```
 
 ## Konfigürasyon
