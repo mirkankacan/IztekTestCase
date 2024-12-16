@@ -10,26 +10,27 @@
 
 ## Gereksinimler
 + Makinenizde yüklü bir [.NET Core 9 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/9.0).
-+ [Microsoft SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) kurulmuş ve yapılandırılmış olmalıdır.
++ [Microsoft SQL Server 2022 Copyright (C) 2022 Microsoft Corporation  Developer Edition](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) kurulmuş ve yapılandırılmış olmalıdır.
 
 ## Kurulum 
-1. Bu GitHub deposunu yerel makinenize klonlamak için aşağıdaki komutu kullanın:
+1. Proje dizini altındaki `CreateTestCaseDb.sql` scripti ile yerel makineniz için gerekli düzenlemeleri yaptıktan sonra veri tabanı ve tabloları oluşturun.
+2. Bu GitHub deposunu yerel makinenize klonlamak için aşağıdaki komutu kullanın:
 ```
 git clone https://github.com/mirkankacan/IztekTestCase.git
 ```
-2. Proje dizinine gidin:
+3. Proje dizinine gidin:
 ```
 cd IztekTestCase
 ```
-3. Bağımlılıkları geri yüklemek için:
+4. Bağımlılıkları geri yüklemek için:
 ```
 dotnet restore
 ```
-4. Projeyi derlemek için:
+5. Projeyi derlemek için:
 ```
 dotnet build
 ```
 
 ## Konfigürasyon
 Projenin başarılı bir şekilde çalıştırılabilmesi için aşağıdaki yapılandırmanın yapılması gerekmektedir:
-+ Veri tabanı `connection string` düzenlemesi (`appsettings.json` içinde).
++ Veri tabanı `connection string` düzenlemesi (proje dizini altında `appsettings.json` içinde).
