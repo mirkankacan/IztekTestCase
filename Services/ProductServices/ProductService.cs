@@ -31,6 +31,22 @@ namespace IztekTestCase.Services.ProductServices
             }
         }
 
+        public async Task<ResultProductDto> DecreaseStockForOrderAsync(int id, int quantity)
+        {
+            var product = await _context.Products.FirstOrDefaultAsync(x => x.ProductId == id);
+            product.StockQuantity = product.StockQuantity - quantity;
+            var mappedProduct = _mapper.Map<ResultProductDto>(product);
+            return mappedProduct;
+        }
+
+        public async Task<ResultProductDto> IncreaseStockForOrderAsync(int id, int quantity)
+        {
+            var product = await _context.Products.FirstOrDefaultAsync(x => x.ProductId == id);
+            product.StockQuantity = product.StockQuantity + quantity;
+            var mappedProduct = _mapper.Map<ResultProductDto>(product);
+            return mappedProduct;
+        }
+
         public async Task DeleteProductAsync(int id)
         {
             try

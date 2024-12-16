@@ -70,6 +70,8 @@ public partial class TestCaseDbContext : DbContext
 
             entity.Property(e => e.Total).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.UnitPrice).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderItems)
                 .HasForeignKey(d => d.OrderId)
@@ -150,7 +152,5 @@ public partial class TestCaseDbContext : DbContext
             entity.Property(e => e.PaymentUpdatedAt).HasColumnType("datetime");
             entity.Property(e => e.TotalAmount).HasColumnType("decimal(18, 2)");
         });
-
     }
-
 }

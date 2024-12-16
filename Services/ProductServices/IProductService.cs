@@ -13,5 +13,9 @@ namespace IztekTestCase.Services.ProductServices
         Task DeleteProductAsync(int id);
 
         Task UpdateProductAsync(UpdateProductDto updateProductDto);
+
+        Task<ResultProductDto> DecreaseStockForOrderAsync(int id, int quantity);
+
+        Task<ResultProductDto> IncreaseStockForOrderAsync(int id, int quantity);
     }
 }

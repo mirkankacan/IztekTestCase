@@ -93,7 +93,7 @@ namespace IztekTestCase.Services.TableServices
             try
             {
                 var table = await _context.Tables.FindAsync(updateTableStatusDto.TableId);
-                _mapper.Map(updateTableStatusDto, table);
+                table.TableStatusId = updateTableStatusDto.TableStatusId;
                 await _context.SaveChangesAsync();
             }
             catch

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace IztekTestCase.Entities;
+﻿namespace IztekTestCase.Entities;
 
 public partial class Order
 {
@@ -17,7 +14,7 @@ public partial class Order
 
     public decimal Amount { get; set; }
 
-    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+    public virtual ICollection<OrderItem>? OrderItems { get; set; } = null;
 
     public virtual OrderStatus OrderStatus { get; set; } = null!;
 

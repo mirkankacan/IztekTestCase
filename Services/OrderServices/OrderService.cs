@@ -2,7 +2,10 @@
 using IztekTestCase.Context;
 using IztekTestCase.Dtos.OrderDtos;
 using IztekTestCase.Dtos.OrderStatusDto;
+using IztekTestCase.Dtos.TableDtos;
 using IztekTestCase.Entities;
+using IztekTestCase.Services.OrderItemServices;
+using IztekTestCase.Services.TableServices;
 using Microsoft.EntityFrameworkCore;
 
 namespace IztekTestCase.Services.OrderServices
@@ -11,11 +14,15 @@ namespace IztekTestCase.Services.OrderServices
     {
         private readonly TestCaseDbContext _context;
         private readonly IMapper _mapper;
+        private readonly ITableService _tableService;
+        private readonly IOrderItemService _orderItemService;
 
-        public OrderService(TestCaseDbContext context, IMapper mapper)
+        public OrderService(TestCaseDbContext context, IMapper mapper, ITableService tableService, IOrderItemService orderItemService)
         {
             _context = context;
             _mapper = mapper;
+            _tableService = tableService;
+            _orderItemService = orderItemService;
         }
 
         public async Task CreateOrderAsync(CreateOrderDto createOrderDto)
@@ -23,36 +30,30 @@ namespace IztekTestCase.Services.OrderServices
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
+                if (!createOrderDto.OrderItems.Any())
+                {
+                    throw new Exception("Siparişe ürün ekleyiniz");
+                }
+                var table = await _context.Tables.FirstOrDefaultAsync(x => x.TableId == createOrderDto.TableId);
+                if (table.TableStatusId == 2)
+                {
+                    throw new Exception("Masa dolu sipariş oluşturamazsınız");
+                }
+                table.TableStatusId = 2; // Masa dolu
+
                 var mappedOrder = _mapper.Map<Order>(createOrderDto);
+                mappedOrder.OrderItems = null;
                 mappedOrder.OrderId = Guid.NewGuid();
                 mappedOrder.CreatedAt = DateTime.UtcNow;
                 mappedOrder.OrderStatusId = 1; // Sipariş alındı
 
-                if (createOrderDto.OrderItems.Any())
-                {
-                    var orderItems = new List<OrderItem>();
-                    foreach (var item in createOrderDto.OrderItems)
-                    {
-                        var product = await _context.Products.FirstOrDefaultAsync(x => x.ProductId == item.ProductId);
-                        product.StockQuantity = product.StockQuantity - item.Quantity;
-                        var orderItem = new OrderItem
-                        {
-                            OrderId = mappedOrder.OrderId,
-                            ProductId = item.ProductId,
-                            Quantity = item.Quantity,
-                            UnitPrice = product.Price,
-                            Total = item.Quantity * product.Price,
-                        };
-                        orderItems.Add(orderItem);
-                    }
-                    mappedOrder.OrderItems = orderItems;
-                    mappedOrder.Amount = orderItems.Sum(x => x.Total);
-                }
-
-                var table = await _context.Tables.FirstOrDefaultAsync(x => x.TableId == createOrderDto.TableId);
-                table.TableStatusId = 2; // Masa dolu
-
                 await _context.Orders.AddAsync(mappedOrder);
+                await _context.SaveChangesAsync();
+
+                var totalAmount = await _orderItemService.CreateOrderItemAsync(mappedOrder.OrderId, createOrderDto.OrderItems);
+                mappedOrder.Amount = totalAmount;
+
+                _context.Orders.Update(mappedOrder);
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
             }
@@ -111,36 +112,35 @@ namespace IztekTestCase.Services.OrderServices
             try
             {
                 var order = await _context.Orders.Include(x => x.OrderItems).FirstOrDefaultAsync(x => x.OrderId == updateOrderDto.OrderId);
+                order.UpdatedAt = DateTime.UtcNow;
+                order.OrderStatusId = updateOrderDto.OrderStatusId;
                 if (order.TableId != updateOrderDto.TableId)
                 {
-                    var nextTable = await _context.Tables.FirstOrDefaultAsync(x => x.TableId == updateOrderDto.TableId);
-                    if (nextTable.TableStatusId == 2 || nextTable.TableStatusId == 3)
+                    var nextTable = await _tableService.GetTableByIdAsync(updateOrderDto.TableId);
+                    if (nextTable.TableStatus.TableStatusId == 2 || nextTable.TableStatus.TableStatusId == 3)
                     {
                         throw new Exception("Yeni masa dolu ya da rezerve edilmiş");
                     }
-                    var prevTable = await _context.Tables.FirstOrDefaultAsync(x => x.TableId == order.TableId);
-                    prevTable.TableStatusId = 1;
-                    nextTable.TableStatusId = 2;
+                    var prevTable = await _tableService.GetTableByIdAsync(order.TableId);
+                    var prevDto = new UpdateTableStatusDto()
+                    {
+                        TableId = prevTable.TableId,
+                        TableStatusId = 1
+                    };
+                    await _tableService.UpdateTableStatusAsync(prevDto);
+                    var nextDto = new UpdateTableStatusDto()
+                    {
+                        TableId = nextTable.TableId,
+                        TableStatusId = 2
+                    };
+                    await _tableService.UpdateTableStatusAsync(nextDto);
+
                     order.TableId = updateOrderDto.TableId;
                 }
-                order.UpdatedAt = DateTime.UtcNow;
-                order.OrderStatusId = updateOrderDto.OrderStatusId;
 
                 if (updateOrderDto.OrderItems.Any())
                 {
-                    foreach (var item in updateOrderDto.OrderItems)
-                    {
-                        var orderItem = order.OrderItems.FirstOrDefault(x => x.OrderItemId == item.OrderItemId);
-                        if (orderItem.Quantity != item.Quantity)
-                        {
-                            var product = await _context.Products.FirstOrDefaultAsync(x => x.ProductId == orderItem.ProductId);
-                            product.StockQuantity = product.StockQuantity + (orderItem.Quantity - item.Quantity);
-                        }
-                        orderItem.Quantity = item.Quantity;
-
-                        orderItem.Total = orderItem.UnitPrice * item.Quantity;
-                    }
-                    order.Amount = order.OrderItems.Sum(x => x.Total);
+                    order.Amount += await _orderItemService.UpdateOrderItemAsync(updateOrderDto.OrderItems);
                 }
 
                 await _context.SaveChangesAsync();
@@ -157,7 +157,7 @@ namespace IztekTestCase.Services.OrderServices
         {
             var order = await _context.Orders.FindAsync(updateOrderStatusDto.OrderId);
             order.UpdatedAt = DateTime.UtcNow;
-            _mapper.Map(updateOrderStatusDto, order);
+            order.OrderStatusId = updateOrderStatusDto.OrderStatusId;
             await _context.SaveChangesAsync();
         }
     }

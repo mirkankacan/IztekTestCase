@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace IztekTestCase.Entities;
+﻿namespace IztekTestCase.Entities;
 
 public partial class OrderItem
 {
@@ -16,7 +13,8 @@ public partial class OrderItem
     public decimal UnitPrice { get; set; }
 
     public decimal Total { get; set; }
-
+    public DateTime? CreatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
     public virtual Order Order { get; set; } = null!;
 
     public virtual Product Product { get; set; } = null!;
