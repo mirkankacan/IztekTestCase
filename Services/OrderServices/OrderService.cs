@@ -34,12 +34,18 @@ namespace IztekTestCase.Services.OrderServices
                 {
                     throw new Exception("Siparişe ürün ekleyiniz");
                 }
-                var table = await _context.Tables.FirstOrDefaultAsync(x => x.TableId == createOrderDto.TableId);
-                if (table.TableStatusId == 2)
+                var table = await _tableService.GetTableByIdAsync(createOrderDto.TableId);
+                await _context.Tables.FirstOrDefaultAsync(x => x.TableId == createOrderDto.TableId);
+                if (table.TableStatus.TableStatusId == 2)
                 {
                     throw new Exception("Masa dolu sipariş oluşturamazsınız");
                 }
-                table.TableStatusId = 2; // Masa dolu
+                var tableStatusDto = new UpdateTableStatusDto()
+                {
+                    TableId = createOrderDto.TableId,
+                    TableStatusId = 2 // Masa dolu
+                };
+                await _tableService.UpdateTableStatusAsync(tableStatusDto);
 
                 var mappedOrder = _mapper.Map<Order>(createOrderDto);
                 mappedOrder.OrderItems = null;
